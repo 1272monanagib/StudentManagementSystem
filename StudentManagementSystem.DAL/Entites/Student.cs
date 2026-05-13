@@ -13,9 +13,9 @@ namespace StudentManagementSystem.DAL.Entites
         public string Email { get; set; }
         public int Age { get; set; }
         public int? DepartmentId { get; set; }
-        public Department? Department { get; set; } = new Department();
-        public ICollection<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
+        public Department? Department { get; set; }
         public int AcademicYearId { get; set; }
-        public AcademicYear AcademicYear { get; set; } = new AcademicYear();
+        public AcademicYear AcademicYear { get; set; }
+        public ICollection<StudentCourse> StudentCourses { get; set; }
     }
 }

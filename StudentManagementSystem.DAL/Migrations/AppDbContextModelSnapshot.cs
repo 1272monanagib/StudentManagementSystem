@@ -35,7 +35,7 @@ namespace StudentManagementSystem.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AcademicYears");
+                    b.ToTable("AcademicYears", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementSystem.DAL.Entites.Course", b =>
@@ -60,7 +60,7 @@ namespace StudentManagementSystem.DAL.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementSystem.DAL.Entites.Department", b =>
@@ -78,7 +78,7 @@ namespace StudentManagementSystem.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
 
                     b.HasData(
                         new
@@ -124,7 +124,7 @@ namespace StudentManagementSystem.DAL.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Instructors");
+                    b.ToTable("Instructors", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementSystem.DAL.Entites.Student", b =>
@@ -160,7 +160,7 @@ namespace StudentManagementSystem.DAL.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementSystem.DAL.Entites.StudentCourse", b =>
@@ -186,7 +186,7 @@ namespace StudentManagementSystem.DAL.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCourses");
+                    b.ToTable("StudentCourses", (string)null);
                 });
 
             modelBuilder.Entity("StudentManagementSystem.DAL.Entites.Course", b =>

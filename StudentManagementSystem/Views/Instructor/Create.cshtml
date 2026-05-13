@@ -1,5 +1,11 @@
-@using StudentManagementSystem.PL.ViewModel.Instructor
-@model CreateInstructorVm
+@model StudentManagementSystem.PL.ViewModel.Instructor.CreateInstructorVm
+
+@{
+    ViewData["Title"] = "Create Instructor";
+}
+
+<h2>Create Instructor</h2>
+
 <form asp-action="Create" method="post">
 
     @Html.AntiForgeryToken()
@@ -24,11 +30,18 @@
 
     <div class="mb-3">
         <label asp-for="DepartmentId"></label>
-        <select asp-for="DepartmentId" asp-items="ViewBag.Departments" class="form-select">
+        <select asp-for="DepartmentId"
+                asp-items="ViewBag.Departments"
+                class="form-select">
             <option value="">-- Select Department --</option>
         </select>
         <span asp-validation-for="DepartmentId" class="text-danger"></span>
     </div>
 
-    <button class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Save</button>
+
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

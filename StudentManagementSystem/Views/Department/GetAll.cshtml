@@ -1,0 +1,37 @@
+﻿@using StudentManagementSystem.PL.ViewModel.Department
+@model List<DepartmentVm>
+
+<h2 class="mb-3">Departments</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Add Department</a>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No Departments Found.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th width="220">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dept in Model)
+            {
+                <tr>
+                    <td>@dept.Name</td>
+                    <td>
+                        <a asp-action="Get" asp-route-id="@dept.Id" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Update" asp-route-id="@dept.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@dept.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

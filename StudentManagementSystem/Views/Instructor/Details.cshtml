@@ -1,0 +1,14 @@
+@model StudentManagementSystem.PL.ViewModel.Instructor.GetInstructorVm
+
+@{
+    ViewData["Title"] = "Instructor Details";
+}
+
+<h2>Instructor Details</h2>
+
+<div class="card p-3">
+    <h4>@Model.Name</h4>
+    <p><strong>Email:</strong> @Model.Email</p>
+</div>
+
+<a asp-action="GetAll" class="btn btn-secondary mt-3">Back</a>

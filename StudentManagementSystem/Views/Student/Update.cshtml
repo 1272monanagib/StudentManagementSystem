@@ -1,0 +1,87 @@
+﻿@using StudentManagementSystem.PL.ViewModel.Student
+@model UpdateStudentVm
+
+<style>
+    .form-container {
+        width: 450px;
+        margin: 50px auto;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        background-color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .form-title {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #2c3e50;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #34495e;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    .btn-update {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        background-color: #f39c12;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .btn-update:hover {
+            background-color: #d68910;
+        }
+</style>
+
+<div class="form-container">
+    <h2 class="form-title">Edit Student</h2>
+
+    <form asp-controller="Student" asp-action="Update" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="form-label">Email</label>
+            <input asp-for="Email" type="email" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Age" class="form-label"></label>
+            <input asp-for="Age" type="number" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DepartmentId" class="form-label">Department</label>
+            <select asp-for="DepartmentId" asp-items="ViewBag.Departments" class="form-control">
+                <option value="">-- Select Department --</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-update">Update</button>
+    </form>
+</div>

@@ -1,0 +1,26 @@
+@model StudentManagementSystem.PL.ViewModel.Course.CreateCourseVm
+
+@{
+    ViewData["Title"] = "Create Course";
+}
+
+<h2>Create Course</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="CreditHours" class="form-label"></label>
+        <input asp-for="CreditHours" type="number" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="InstructorId" class="form-label">Instructor</label>
+        <select asp-for="InstructorId" asp-items="ViewBag.Instructors" class="form-select">
+            <option value="">-- Select Instructor --</option>
+        </select>
+    </div>
+    <button class="btn btn-success">Save</button>
+    <a asp-action="GetAll" class="btn btn-secondary">Back</a>
+</form>

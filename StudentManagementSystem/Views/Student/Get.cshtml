@@ -1,0 +1,56 @@
+﻿@using StudentManagementSystem.PL.ViewModel.Student
+@model GetStudentVm
+
+<style>
+
+    .details-container {
+        width: 500px;
+        margin: 60px auto;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        background-color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .details-title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .details-item {
+        margin-bottom: 15px;
+        font-size: 18px;
+    }
+
+    .details-label {
+        font-weight: bold;
+        color: #34495e;
+    }
+</style>
+
+<div class="details-container">
+    <h2 class="details-title">Student Details</h2>
+
+    <div class="details-item">
+        <span class="details-label">Id:</span> @Model.Id
+    </div>
+
+    <div class="details-item">
+        <span class="details-label">Name:</span> @Model.Name
+    </div>
+
+    <div class="details-item">
+        <span class="details-label">Email:</span> @Model.Email
+    </div>
+
+    <div class="details-item">
+        <span class="details-label">Age:</span> @Model.Age
+    </div>
+
+    <div class="details-item">
+        <span class="details-label">Department:</span> @Model.DepartmentName
+    </div>
+
+</div> 

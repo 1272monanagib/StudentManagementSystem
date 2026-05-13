@@ -1,0 +1,37 @@
+@model List<StudentManagementSystem.PL.ViewModel.Course.CourseVm>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>All Courses</h2>
+
+<p>
+    <a asp-controller="Course" asp-action="Create" class="btn btn-primary">Create New Course</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Instructor</th>
+            <th>Credit Hours</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Name</td>
+                <td>@c.InstructorName</td>
+                <td>@c.CreditHours</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@c.Id" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@c.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

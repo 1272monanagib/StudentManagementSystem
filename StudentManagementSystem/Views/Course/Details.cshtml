@@ -1,0 +1,15 @@
+@model StudentManagementSystem.PL.ViewModel.Course.CourseVm
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<h2>Course Details</h2>
+
+<div class="card p-3">
+    <h4>@Model.Name</h4>
+    <p><strong>Instructor:</strong> @Model.InstructorName</p>
+    <p><strong>Credit Hours:</strong> @Model.CreditHours</p>
+</div>
+
+<a asp-action="GetAll" class="btn btn-secondary mt-3">Back</a>

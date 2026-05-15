@@ -35,10 +35,14 @@
         border: 1px solid #ccc;
         border-radius: 6px;
         font-size: 15px;
-        box-sizing: border-box;
     }
 
-    .btn-update {
+    .text-danger {
+        color: red;
+        font-size: 14px;
+    }
+
+    .btn-save {
         width: 100%;
         padding: 12px;
         border: none;
@@ -49,39 +53,99 @@
         cursor: pointer;
     }
 
-        .btn-update:hover {
+        .btn-save:hover {
             background-color: #d68910;
         }
+
+    .courses-box {
+        max-height: 150px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 6px;
+        background: #fafafa;
+    }
+
+    .course-item {
+        margin-bottom: 6px;
+    }
 </style>
 
 <div class="form-container">
-    <h2 class="form-title">Edit Student</h2>
 
-    <form asp-controller="Student" asp-action="Update" method="post">
+    <h2 class="form-title">Update Student</h2>
+
+    <form asp-action="Update" method="post">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
         <input type="hidden" asp-for="Id" />
 
+        <!-- Name -->
         <div class="form-group">
             <label asp-for="Name" class="form-label"></label>
             <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
+        <!-- Email -->
         <div class="form-group">
-            <label asp-for="Email" class="form-label">Email</label>
-            <input asp-for="Email" type="email" class="form-control" />
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
+        <!-- Age -->
         <div class="form-group">
             <label asp-for="Age" class="form-label"></label>
             <input asp-for="Age" type="number" class="form-control" />
+            <span asp-validation-for="Age" class="text-danger"></span>
         </div>
 
+        <!-- Department -->
         <div class="form-group">
-            <label asp-for="DepartmentId" class="form-label">Department</label>
-            <select asp-for="DepartmentId" asp-items="ViewBag.Departments" class="form-control">
+            <label class="form-label">Department</label>
+            <select asp-for="DepartmentId"
+                    asp-items="ViewBag.Departments"
+                    class="form-control">
                 <option value="">-- Select Department --</option>
             </select>
         </div>
 
-        <button type="submit" class="btn-update">Update</button>
+        <!-- Academic Year -->
+        <div class="form-group">
+            <label class="form-label">Academic Year</label>
+            <select asp-for="AcademicYearId"
+                    asp-items="ViewBag.AcademicYears"
+                    class="form-control">
+                <option value="">-- Select Year --</option>
+            </select>
+        </div>
+
+        <!-- Courses -->
+        <div class="form-group">
+            <label class="form-label">Courses</label>
+
+            <div class="courses-box">
+                @foreach (var course in ViewBag.Courses)
+                {
+                    <div class="course-item">
+                        <input type="checkbox"
+                               name="SelectedCourseIds"
+                               value="@course.Value"
+                               @(Model.SelectedCourseIds != null && Model.SelectedCourseIds.Contains(int.Parse(course.Value)) ? "checked" : "") />
+
+                        <label>@course.Text</label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <button type="submit" class="btn-save">Update</button>
     </form>
+
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

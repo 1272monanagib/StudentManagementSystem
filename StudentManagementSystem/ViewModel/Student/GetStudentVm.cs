@@ -7,5 +7,7 @@
         public string Email { get; set; }
         public int Age { get; set; }
         public string DepartmentName { get; set; }
+        public string AcademicYearName { get; set; }
+        public string CoursesNames { get; set; } 
     }
 }

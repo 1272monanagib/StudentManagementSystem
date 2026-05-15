@@ -62,26 +62,32 @@
 <div class="form-container">
     <h2 class="form-title">Create New Student</h2>
 
-    <form asp-controller="Student" asp-action="Create" method="post">
+    <form asp-action="Create" method="post">
 
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <!-- Name -->
         <div class="form-group">
-            <label asp-for="Name" class="form-label">Name</label>
+            <label asp-for="Name" class="form-label"></label>
             <input asp-for="Name" class="form-control" />
-            @* <span asp-validation-for="Name" class="text-danger"></span> *@
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
+        <!-- Email -->
         <div class="form-group">
-            <label asp-for="Email" class="form-label">Email</label>
+            <label asp-for="Email" class="form-label"></label>
             <input asp-for="Email" type="email" class="form-control" />
-            @* <span asp-validation-for="Email" class="text-danger"></span> *@
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
+        <!-- Age -->
         <div class="form-group">
-            <label asp-for="Age" class="form-label">Age</label>
+            <label asp-for="Age" class="form-label"></label>
             <input asp-for="Age" type="number" class="form-control" />
-            @* <span asp-validation-for="Age" class="text-danger"></span> *@
+            <span asp-validation-for="Age" class="text-danger"></span>
         </div>
 
+        <!-- Department -->
         <div class="form-group">
             <label asp-for="DepartmentId" class="form-label">Department</label>
             <select asp-for="DepartmentId" asp-items="ViewBag.Departments" class="form-control">
@@ -89,7 +95,28 @@
             </select>
         </div>
 
-        <button type="submit" class="btn-save">Save</button>
+        <!-- Academic Year -->
+        <div class="form-group">
+            <label asp-for="AcademicYearId" class="form-label">Academic Year</label>
+            <select asp-for="AcademicYearId" asp-items="ViewBag.AcademicYears" class="form-control">
+                <option value="">-- Select Year --</option>
+            </select>
+        </div>
+
+        <!-- Courses Multi Select -->
+        <div class="form-group">
+            <label asp-for="SelectedCourseIds" class="form-label">Courses</label>
+            <select asp-for="SelectedCourseIds"
+                    asp-items="ViewBag.Courses"
+                    class="form-control"
+                    multiple>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-save">Save Student</button>
     </form>
 </div>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

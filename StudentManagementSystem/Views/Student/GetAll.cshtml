@@ -1,102 +1,97 @@
-﻿@using StudentManagementSystem.PL.ViewModel.Student
-@model List<StudentVm>
+﻿@model List<StudentManagementSystem.PL.ViewModel.Student.StudentVm>
 
 <style>
-    .students-container {
+    .container {
         width: 90%;
         margin: 40px auto;
         font-family: Arial, sans-serif;
     }
 
-    .students-title {
+    h2 {
         text-align: center;
         margin-bottom: 25px;
         color: #2c3e50;
     }
 
-    .students-table {
+    table {
         width: 100%;
         border-collapse: collapse;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        background: white;
+        border-radius: 8px;
         overflow: hidden;
-        border-radius: 10px;
-        background-color: white;
     }
 
-        .students-table thead {
-            background-color: #34495e;
-            color: white;
-        }
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        text-align: center;
+    }
 
-        .students-table th,
-        .students-table td {
-            padding: 14px 18px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
+    th {
+        background-color: #2c3e50;
+        color: white;
+    }
 
-        .students-table tbody tr:hover {
-            background-color: #f5f5f5;
-        }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
 
     .btn {
+        padding: 6px 10px;
+        border-radius: 5px;
         text-decoration: none;
-        padding: 8px 14px;
-        border-radius: 6px;
         color: white;
-        font-size: 14px;
-        margin: 0 4px;
+        font-size: 13px;
+        margin: 2px;
         display: inline-block;
     }
 
-    .btn-edit {
+    .btn-details {
         background-color: #3498db;
     }
 
-        .btn-edit:hover {
-            background-color: #2980b9;
-        }
+    .btn-edit {
+        background-color: #f39c12;
+    }
 
     .btn-delete {
         background-color: #e74c3c;
     }
-
-        .btn-delete:hover {
-            background-color: #c0392b;
-        }
-
-    .no-data {
-        text-align: center;
-        margin-top: 20px;
-        color: #777;
-        font-size: 18px;
-    }
 </style>
 
-<div class="students-container">
-    <h2 class="students-title">All Students</h2>
-    <table class="students-table">
+<div class="container">
+
+    <h2>Students List</h2>
+
+    <table>
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Department</th>
                 <th>Age</th>
-                <th width="200"></th>
+                <th>Department</th>
+                <th>Academic Year</th>
+                <th>Courses</th>
+                <th>Actions</th>
             </tr>
         </thead>
+
         <tbody>
-            @foreach (var student in Model)
+            @foreach (var item in Model)
             {
                 <tr>
-                    <td>@student.Name</td>
-                    <td>@student.Email</td>
-                    <td>@student.DepartmentName</td>
-                    <td>@student.Age</td>
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>@item.Age</td>
+                    <td>@item.DepartmentName</td>
+                    <td>@item.AcademicYearName</td>
+                    <td>@string.Join(", ", item.CoursesNames)</td>
+
                     <td>
-                        @*Student/Update/2*@
-                        <a asp-controller="Student" asp-action="Update" asp-route-id="@student.Id" class="btn btn-edit">Update</a>
-                        <a asp-controller="Student" asp-action="Delete" asp-route-id="@student.Id" class="btn btn-delete">Delete</a>
+                        <a asp-action="Get" asp-route-id="@item.Id" class="btn btn-details">Details</a>
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-edit">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-delete">Delete</a>
                     </td>
                 </tr>
             }

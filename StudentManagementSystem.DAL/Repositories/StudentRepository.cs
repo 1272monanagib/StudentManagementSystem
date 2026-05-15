@@ -18,7 +18,7 @@ namespace StudentManagementSystem.DAL.Repositories
         {
             return _context.Students
                 .Include(s => s.Department)
-                //.Include(s => s.AcademicYear)
+                .Include(s => s.AcademicYear)
                 .Include(s => s.StudentCourses)
                     .ThenInclude(sc => sc.Course)
                         .ThenInclude(c => c.Instructor)
@@ -29,7 +29,7 @@ namespace StudentManagementSystem.DAL.Repositories
         {
             return _context.Students
                 .Include(s => s.Department)
-                //.Include(s => s.AcademicYear)
+               .Include(s => s.AcademicYear)
                 .Include(s => s.StudentCourses)
                     .ThenInclude(sc => sc.Course)
                         .ThenInclude(c => c.Instructor)

@@ -1,11 +1,9 @@
-﻿@using StudentManagementSystem.PL.ViewModel.Student
-@model GetStudentVm
+﻿@model StudentManagementSystem.PL.ViewModel.Student.GetStudentVm
 
 <style>
-
     .details-container {
-        width: 500px;
-        margin: 60px auto;
+        width: 450px;
+        margin: 50px auto;
         padding: 25px;
         border-radius: 10px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -13,44 +11,76 @@
         font-family: Arial, sans-serif;
     }
 
-    .details-title {
+    .title {
         text-align: center;
         margin-bottom: 20px;
         color: #2c3e50;
     }
 
-    .details-item {
-        margin-bottom: 15px;
-        font-size: 18px;
+    .row {
+        margin-bottom: 12px;
+        font-size: 15px;
     }
 
-    .details-label {
+    .label {
         font-weight: bold;
         color: #34495e;
     }
+
+    .value {
+        color: #2c3e50;
+    }
+
+    .btn-back {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        background-color: #3498db;
+        color: white;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+
+        .btn-back:hover {
+            background-color: #2980b9;
+        }
 </style>
 
 <div class="details-container">
-    <h2 class="details-title">Student Details</h2>
 
-    <div class="details-item">
-        <span class="details-label">Id:</span> @Model.Id
+    <h2 class="title">Student Details</h2>
+
+    <div class="row">
+        <span class="label">Name: </span>
+        <span class="value">@Model.Name</span>
     </div>
 
-    <div class="details-item">
-        <span class="details-label">Name:</span> @Model.Name
+    <div class="row">
+        <span class="label">Email: </span>
+        <span class="value">@Model.Email</span>
     </div>
 
-    <div class="details-item">
-        <span class="details-label">Email:</span> @Model.Email
+    <div class="row">
+        <span class="label">Age: </span>
+        <span class="value">@Model.Age</span>
     </div>
 
-    <div class="details-item">
-        <span class="details-label">Age:</span> @Model.Age
+    <div class="row">
+        <span class="label">Department: </span>
+        <span class="value">@Model.DepartmentName</span>
     </div>
 
-    <div class="details-item">
-        <span class="details-label">Department:</span> @Model.DepartmentName
+    <div class="row">
+        <span class="label">Academic Year: </span>
+        <span class="value">@Model.AcademicYearName</span>
     </div>
 
-</div> 
+    <div class="row">
+        <span class="label">Courses: </span>
+        <span class="value">@Model.CoursesNames</span>
+    </div>
+
+    <a asp-action="GetAll" class="btn-back">Back</a>
+
+</div>

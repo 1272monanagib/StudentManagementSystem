@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using StudentManagementSystem.BL.Dtos.StudentDtos;
 using StudentManagementSystem.BL.Interface;
 using StudentManagementSystem.BL.Service;
 using StudentManagementSystem.PL.ViewModel.Department;
@@ -11,10 +13,14 @@ namespace StudentManagementSystem.PL.Controllers
     {
         private readonly IStudentService _studentService;
         private readonly IDepartmentService _departmentService;
-        public StudentController(IStudentService studentService, IDepartmentService departmentService)
+        private readonly IAcademicYearService _academicYearService;
+        private readonly ICourseService _courseService;
+        public StudentController(IStudentService studentService, IDepartmentService departmentService, IAcademicYearService academicYearService, ICourseService courseService)
         {
             _studentService = studentService;
             _departmentService = departmentService;
+            _academicYearService = academicYearService;
+            _courseService = courseService;
         }
         public IActionResult Index()
         {
@@ -25,6 +31,8 @@ namespace StudentManagementSystem.PL.Controllers
         {
             var depts = _departmentService.GetAllDepartments();
             ViewBag.Departments = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(depts, "Id", "Name");
+            ViewBag.AcademicYears = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_academicYearService.GetAllAcademicYears(), "Id", "Name");
+            ViewBag.Courses = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_courseService.GetAllCourses(), "Id", "Name");
             return View();
         }
 
@@ -33,8 +41,6 @@ namespace StudentManagementSystem.PL.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var depts = _departmentService.GetAllDepartments();
-                ViewBag.Departments = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(depts, "Id", "Name");
                 return View(createStudentVm);
             }
 
@@ -43,7 +49,10 @@ namespace StudentManagementSystem.PL.Controllers
                 Name = createStudentVm.Name,
                 Email = createStudentVm.Email,
                 Age = createStudentVm.Age,
-                DepartmentId = createStudentVm.DepartmentId
+                DepartmentId = createStudentVm.DepartmentId,
+                AcademicYearId = createStudentVm.AcademicYearId,
+                CourseIds = createStudentVm.SelectedCourseIds
+
             });
 
             return RedirectToAction("GetAll");
@@ -52,48 +61,81 @@ namespace StudentManagementSystem.PL.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var studentsDto = _studentService.GetAllStudents();
-            var depts = _departmentService.GetAllDepartments().ToDictionary(d => d.Id, d => d.Name);
-            var studentVm = studentsDto.Select(x => new StudentVm { Id = x.Id, Name = x.Name, Age = x.Age, Email = x.Email, DepartmentId = x.DepartmentId, DepartmentName = depts.ContainsKey(x.DepartmentId) ? depts[x.DepartmentId] : string.Empty }).ToList();
-            return View(studentVm );
+            var list= _studentService.GetAllStudents();
+            var vm = list.Select(x => new StudentVm { Id = x.Id, Name = x.Name, Age = x.Age, 
+                Email = x.Email, DepartmentName = x.DepartmentName , 
+                AcademicYearName = x.AcademicYearName , CoursesNames = string.Join(", ", x.CoursesNames) }).ToList();
+          
+            return View(vm);
         }
 
         [HttpGet]
         public IActionResult Get(int id)
         {
             var student = _studentService.GetStudentById(id);
-            var dept = _departmentService.GetDepartmentById(student.DepartmentId);
-            return View(new GetStudentVm { Id = student.Id, Name = student.Name, Email = student.Email, Age = student.Age, DepartmentName = dept?.Name });
+            
+            return View(new GetStudentVm { Name = student.Name, Email = student.Email, Age = student.Age, 
+                DepartmentName = student.DepartmentName ,  AcademicYearName = student.AcademicYearName , 
+                CoursesNames = string.Join(", ", student.CourseIds) });
 
         }
         [HttpGet]
         public IActionResult Update(int id)
         {
             var student = _studentService.GetStudentById(id);
-            var vm = new UpdateStudentVm { Id = student.Id, Name = student.Name, Email = student.Email, Age = student.Age, DepartmentId = student.DepartmentId };
-            var depts = _departmentService.GetAllDepartments();
-            ViewBag.Departments = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(depts, "Id", "Name", vm.DepartmentId);
+
+            var vm = new UpdateStudentVm
+            {
+                Id = id,
+                Name = student.Name,
+                Email = student.Email,
+                Age = student.Age,
+
+                DepartmentId = student.DepartmentId ,
+                AcademicYearId = student.AcademicYearId ,
+
+                SelectedCourseIds = student.CourseIds.ToList()
+            };
+
+            ViewBag.Departments = new SelectList(_departmentService.GetAllDepartments(), "Id", "Name", vm.DepartmentId);
+            ViewBag.AcademicYears = new SelectList(_academicYearService.GetAllAcademicYears(), "Id", "Name", vm.AcademicYearId);
+            ViewBag.Courses = new MultiSelectList(_courseService.GetAllCourses(), "Id", "Name");
+
             return View(vm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(UpdateStudentVm updateStudentVm)
+        public IActionResult Update(UpdateStudentVm vm)
         {
             if (!ModelState.IsValid)
             {
-                var depts = _departmentService.GetAllDepartments();
-                ViewBag.Departments = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(depts, "Id", "Name", updateStudentVm.DepartmentId);
-                return View(updateStudentVm);
+                ViewBag.Departments = new SelectList(_departmentService.GetAllDepartments(), "Id", "Name");
+                ViewBag.AcademicYears = new SelectList(_academicYearService.GetAllAcademicYears(), "Id", "Name");
+                ViewBag.Courses = new MultiSelectList(_courseService.GetAllCourses(), "Id", "Name");
+
+                return View(vm);
             }
 
-            _studentService.UpdateStudent(new StudentDto.StudentDto { Id = updateStudentVm.Id, Name = updateStudentVm.Name, Email = updateStudentVm.Email, Age = updateStudentVm.Age, DepartmentId = updateStudentVm.DepartmentId });
+            _studentService.UpdateStudent(new UpdateStudentDto
+            {
+                Id = vm.Id,
+                Name = vm.Name,
+                Email = vm.Email,
+                Age = vm.Age,
+                DepartmentId = vm.DepartmentId,
+                AcademicYearId = vm.AcademicYearId,
+                CourseIds = vm.SelectedCourseIds  
+            });
+
             return RedirectToAction("GetAll");
         }
         [HttpGet]
         public IActionResult Delete(int id)
         {
             var student = _studentService.GetStudentById(id);
-            var vm = new GetStudentVm { Id = student.Id, Name = student.Name, Email = student.Email, Age = student.Age, DepartmentName = _departmentService.GetDepartmentById(student.DepartmentId)?.Name };
+            var vm = new StudentVm { Id = id, Name = student.Name, Email = student.Email, Age = student.Age,
+            DepartmentName= student.DepartmentName ,
+            AcademicYearName = student.AcademicYearName , CoursesNames = string.Join(", ", student.CourseIds) };
             return View(vm);
         }
 

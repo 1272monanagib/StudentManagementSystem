@@ -49,7 +49,7 @@ namespace StudentManagementSystem.DAL.Migrations
                     b.Property<int>("CreditHours")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InstructorId")
+                    b.Property<int>("InstructorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -106,7 +106,7 @@ namespace StudentManagementSystem.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -135,7 +135,7 @@ namespace StudentManagementSystem.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AcademicYearId")
+                    b.Property<int?>("AcademicYearId")
                         .HasColumnType("int");
 
                     b.Property<int>("Age")
@@ -193,7 +193,9 @@ namespace StudentManagementSystem.DAL.Migrations
                 {
                     b.HasOne("StudentManagementSystem.DAL.Entites.Instructor", "Instructor")
                         .WithMany("Courses")
-                        .HasForeignKey("InstructorId");
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Instructor");
                 });
@@ -202,7 +204,9 @@ namespace StudentManagementSystem.DAL.Migrations
                 {
                     b.HasOne("StudentManagementSystem.DAL.Entites.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Department");
                 });
@@ -210,10 +214,8 @@ namespace StudentManagementSystem.DAL.Migrations
             modelBuilder.Entity("StudentManagementSystem.DAL.Entites.Student", b =>
                 {
                     b.HasOne("StudentManagementSystem.DAL.Entites.AcademicYear", "AcademicYear")
-                        .WithMany("Students")
-                        .HasForeignKey("AcademicYearId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("AcademicYearId");
 
                     b.HasOne("StudentManagementSystem.DAL.Entites.Department", "Department")
                         .WithMany("Students")
@@ -242,11 +244,6 @@ namespace StudentManagementSystem.DAL.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.DAL.Entites.AcademicYear", b =>
-                {
-                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.DAL.Entites.Course", b =>

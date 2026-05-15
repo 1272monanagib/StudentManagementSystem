@@ -11,11 +11,10 @@ namespace StudentManagementSystem.BL.Interface
 {
     public interface IStudentService
     {
-        public StudentManagementSystem.BL.Common.ServiceResponse<object> CreateStudent(CreateStudentDto createStudentDto);
-        public StudentManagementSystem.BL.Common.ServiceResponse<StudentManagementSystem.BL.Dtos.StudentDtos.CreateStudentFormDataDto> GetCreateData();
+        public void CreateStudent(CreateStudentDto createStudentDto);
         public List<StudentDto> GetAllStudents();
         public GetStudentDto GetStudentById(int id);
-        public StudentManagementSystem.BL.Common.ServiceResponse<object> UpdateStudent(StudentDto studentDto, List<int>? courseIds = null);
+        public void UpdateStudent(UpdateStudentDto updateStudentDto);
         public void DeleteStudent(int id);
     }
 }

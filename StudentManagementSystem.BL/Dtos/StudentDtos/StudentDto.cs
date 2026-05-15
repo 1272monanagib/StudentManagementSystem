@@ -16,6 +16,8 @@ namespace StudentManagementSystem.BL.Dtos.StudentDtos
         public string DepartmentName { get; set; }
         public int AcademicYearId { get; set; }
         public string AcademicYearName { get; set; }
-        public List<string> Courses { get; set; } = new List<string>();
+        public List<string> CoursesNames { get; set; }
+        
+
     }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.DAL.Entites;
 
 namespace StudentManagementSystem.DAL
 {
-    public class AppDbContext: DbContext
+    public class AppDbContext: IdentityDbContext<ApplicationUser>
     {
         public DbSet<Student> Students { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -42,8 +44,12 @@ namespace StudentManagementSystem.DAL
                 new Department { Id = 2, Name = "HR" },
                 new Department { Id = 3, Name = "Finance" }
             );
+           
 
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityRole>().HasData( new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Id = "2", Name = "Student", NormalizedName = "STUDENT" }
+                , new IdentityRole { Id = "3", Name = "Instructor", NormalizedName = "INSTRUCTOR" });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

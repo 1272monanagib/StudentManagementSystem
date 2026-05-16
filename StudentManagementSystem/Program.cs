@@ -1,12 +1,14 @@
-using Microsoft.EntityFrameworkCore;
-using StudentManagementSystem.DAL;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.BL.Interface;
 using StudentManagementSystem.BL.Service;
+using StudentManagementSystem.DAL;
+using StudentManagementSystem.DAL.Entites;
 using StudentManagementSystem.DAL.Interface;
 using StudentManagementSystem.DAL.Repositories;
 
@@ -33,6 +35,9 @@ namespace StudentManagementSystem
             builder.Services.AddScoped<InstructorRepository, InstructorRepository>();
             builder.Services.AddScoped<IAcademicYearService, AcademicYearService>();
             builder.Services.AddScoped<IAcademicYearRepository, AcademicYearRepository>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
             var app = builder.Build();
             
             // Configure the HTTP request pipeline.
@@ -46,7 +51,7 @@ namespace StudentManagementSystem
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
